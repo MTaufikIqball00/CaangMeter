@@ -38,6 +38,7 @@ class JabarCaangApp extends StatelessWidget {
       ),
       // Gunakan routerConfig
       routerConfig: router,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
