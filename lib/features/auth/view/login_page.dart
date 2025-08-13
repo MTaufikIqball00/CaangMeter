@@ -178,6 +178,49 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         const SizedBox(height: 16),
 
+                        // Tombol Login dengan Google
+                        authViewModel.isLoading
+                            ? const SizedBox.shrink()
+                            : OutlinedButton.icon(
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            side: BorderSide(color: Colors.grey.shade300),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          onPressed: () async {
+                            bool success = await authViewModel.loginWithGoogle();
+                            if (success && context.mounted) {
+                              if (authViewModel.isAdmin) {
+                                context.go('/admin');
+                              } else {
+                                context.go('/home');
+                              }
+                            } else if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(authViewModel.errorMessage ?? 'Login dengan Google gagal.'),
+                                  backgroundColor: Colors.red.shade600,
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                              );
+                            }
+                          },
+                          icon: Image.asset(
+                            'assets/img/google.png',
+                            height: 24,
+                          ),
+                          label: const Text(
+                            'Login dengan Google',
+                            style: TextStyle(fontSize: 16, color: Colors.black),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
                         // Link ke Halaman Register
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

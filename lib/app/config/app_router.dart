@@ -27,7 +27,7 @@ class AppRouter {
 
     return GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: AppConstants.monitoringRoute,
+      initialLocation: authViewModel.currentUser == null ? AppConstants.loginRoute : null,
       refreshListenable: authViewModel,
       redirect: (BuildContext context, GoRouterState state) {
         final bool isLoggedIn = authViewModel.currentUser != null;
@@ -37,15 +37,13 @@ class AppRouter {
             state.matchedLocation == AppConstants.registerRoute;
 
         if (!isLoggedIn && !isGoingToAuth) return AppConstants.loginRoute;
-        if (isLoggedIn && isGoingToAuth) return AppConstants.homeRoute;
-        if (isLoggedIn &&
-            isAdmin &&
-            state.matchedLocation == AppConstants.homeRoute) {
+        if (isLoggedIn && isGoingToAuth) {
+          return isAdmin ? AppConstants.adminRoute : AppConstants.homeRoute;
+        }
+        if (isLoggedIn && isAdmin && state.matchedLocation == AppConstants.homeRoute) {
           return AppConstants.adminRoute;
         }
-        if (isLoggedIn &&
-            !isAdmin &&
-            state.matchedLocation == AppConstants.adminRoute) {
+        if (isLoggedIn && !isAdmin && state.matchedLocation == AppConstants.adminRoute) {
           return AppConstants.homeRoute;
         }
 
@@ -102,15 +100,11 @@ class AppRouter {
             return SimulasiHasilPage(result: result);
           },
         ),
-
-        // Profil Admin
         GoRoute(
           path: AppConstants.profileAdminRoute,
           parentNavigatorKey: _rootNavigatorKey,
           builder: (context, state) => const ProfilePage(role: 'admin'),
         ),
-
-        // Menu utama untuk user
         StatefulShellRoute.indexedStack(
           builder: (context, state, navigationShell) {
             return MainNavigationPage(navigationShell: navigationShell);

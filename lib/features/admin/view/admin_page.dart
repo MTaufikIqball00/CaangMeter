@@ -51,20 +51,6 @@ class _AdminPageState extends State<AdminPage> {
           child: Scaffold(
             appBar: AppBar(
               title: const Text('Dashboard Admin'),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.logout),
-                  tooltip: 'Logout',
-                  onPressed: () async {
-                    final authViewModel =
-                    Provider.of<AuthViewModel>(context, listen: false);
-                    await authViewModel.logout();
-                    if (context.mounted) {
-                      context.go('/login');
-                    }
-                  },
-                ),
-              ],
               bottom: const TabBar(
                 tabs: [
                   Tab(icon: Icon(Icons.list_alt), text: 'Daftar Aduan'),

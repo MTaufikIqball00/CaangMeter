@@ -55,6 +55,9 @@ dependencies:
   image: ^4.1.7
   url_launcher: ^6.2.6
 
+  #google
+  google_sign_in: ^6.2.1
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
@@ -88,6 +91,7 @@ flutter:
    - assets/img/aduan.jpg
    - assets/img/riwayat.jpg
    - assets/img/solar.jpg
+   - assets/img/google.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

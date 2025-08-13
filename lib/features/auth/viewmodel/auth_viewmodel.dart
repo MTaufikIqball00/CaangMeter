@@ -57,24 +57,28 @@ class AuthViewModel extends ChangeNotifier {
     }
   }
 
-  void _handleAuthError(FirebaseAuthException e) {
-    switch (e.code) {
-      case 'invalid-email':
-        _errorMessage = 'Format email tidak valid.';
-        break;
-      case 'user-not-found':
-      case 'wrong-password':
-      case 'invalid-credential':
-        _errorMessage = 'Email atau password yang Anda masukkan salah.';
-        break;
-      case 'email-already-in-use':
-        _errorMessage = 'Email ini sudah terdaftar. Silakan gunakan email lain.';
-        break;
-      case 'weak-password':
-        _errorMessage = 'Password terlalu lemah.';
-        break;
-      default:
-        _errorMessage = 'Terjadi kesalahan: ${e.message}';
+  void _handleAuthError(dynamic e) {
+    if (e is FirebaseAuthException) {
+      switch (e.code) {
+        case 'invalid-email':
+          _errorMessage = 'Format email tidak valid.';
+          break;
+        case 'user-not-found':
+        case 'wrong-password':
+        case 'invalid-credential':
+          _errorMessage = 'Email atau password yang Anda masukkan salah.';
+          break;
+        case 'email-already-in-use':
+          _errorMessage = 'Email ini sudah terdaftar. Silakan gunakan email lain.';
+          break;
+        case 'weak-password':
+          _errorMessage = 'Password terlalu lemah.';
+          break;
+        default:
+          _errorMessage = 'Terjadi kesalahan: ${e.message}';
+      }
+    } else {
+      _errorMessage = 'Terjadi kesalahan: $e';
     }
   }
 
@@ -101,6 +105,32 @@ class AuthViewModel extends ChangeNotifier {
       return false;
     } catch (e) {
       _errorMessage = e.toString();
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> loginWithGoogle() async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final user = await _authRepository.signInWithGoogle();
+      if (user != null) {
+        _userModel = await _authRepository.getUserData(user.uid);
+        _isLoading = false;
+        notifyListeners();
+        return true;
+      } else {
+        _errorMessage = 'Login dengan Google dibatalkan.';
+        _isLoading = false;
+        notifyListeners();
+        return false;
+      }
+    } catch (e) {
+      _handleAuthError(e);
       _isLoading = false;
       notifyListeners();
       return false;

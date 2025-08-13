@@ -31,7 +31,7 @@ class JabarCaangApp extends StatelessWidget {
     final router = AppRouter.getRouter(context);
 
     return MaterialApp.router(
-      title: 'Jabar Caang',
+      title: 'CaangMeter',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
