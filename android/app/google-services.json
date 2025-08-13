@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "537016168733",
+    "project_id": "jabar-caang-app",
+    "storage_bucket": "jabar-caang-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537016168733:android:5b305c4c174292fa1d31f4",
+        "android_client_info": {
+          "package_name": "com.example.jabar_caang"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "537016168733-00qbjp1j6llhcaol47m01cvj9boj2ct1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jabar_caang",
+            "certificate_hash": "5697c0496953cea452257fb144b674898b40fdbc"
+          }
+        },
+        {
+          "client_id": "537016168733-7f8qjpiqrq86pqcdpjf7ql07m32m3eji.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBMZrY15SypCfn5a9Q8t9dn5vv3w9wzhg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "537016168733-7f8qjpiqrq86pqcdpjf7ql07m32m3eji.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
