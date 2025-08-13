@@ -17,7 +17,7 @@ class AboutUsPage extends StatelessWidget {
             const Icon(Icons.lightbulb_circle, size: 100, color: Colors.blue),
             const SizedBox(height: 16),
             Text(
-              'Jabar Caang',
+              'CaangMeter',
               style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
@@ -27,13 +27,13 @@ class AboutUsPage extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             const Text(
-              'Jabar Caang adalah sebuah inisiatif digital untuk mendukung program elektrifikasi desa di Jawa Barat. Aplikasi ini memungkinkan masyarakat untuk secara aktif melaporkan masalah kelistrikan dan membantu pemerintah daerah dalam memetakan serta menyelesaikan isu-isu yang ada di lapangan.',
+              'CaangMeter adalah sebuah inisiatif digital untuk mendukung program elektrifikasi desa di Jawa Barat. Aplikasi ini memungkinkan masyarakat untuk secara aktif melaporkan masalah kelistrikan dan membantu pemerintah daerah dalam memetakan serta menyelesaikan isu-isu yang ada di lapangan.',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16, height: 1.5),
             ),
             const Spacer(),
             const Text(
-              '© 2025 - Pemerintah Provinsi Jawa Barat',
+              '© 2025 - CaangMeter',
               style: TextStyle(color: Colors.grey),
             ),
             const SizedBox(height: 20),
