@@ -115,8 +115,10 @@ class AuthRepository {
 
   // Logout user
   Future<void> signOut() async {
-    await _googleSignIn.signOut();
-    await _firebaseAuth.signOut();
+    await _googleSignIn.signOut().catchError((e) => print('Google Sign-Out Error: $e'));
+    print('Attempting Firebase Sign-Out...');
+    await _firebaseAuth.signOut().catchError((e) => print('Firebase Sign-Out Error: $e'));
+    print('Sign-Out Completed');
   }
 
   // Ambil data user dari Firestore
