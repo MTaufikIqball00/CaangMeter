@@ -2,7 +2,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
-        android:label="jabar_caang"
+        android:label="Caang_Meter"
         android:icon="@drawable/logo">
         <activity
             android:name=".MainActivity"
