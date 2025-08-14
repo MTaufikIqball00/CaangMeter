@@ -9,8 +9,8 @@ class AdminMonitoringViewModel extends ChangeNotifier {
   final AdminRepository _adminRepo = AdminRepository();
 
   List<RasioDesaModel> listDesa = [];
-  List<DocumentSnapshot> _allAduan = []; // Simpan semua data
-  List<DocumentSnapshot> filteredAduan = []; // Data yang sudah difilter
+  List<QueryDocumentSnapshot<Object?>> _allAduan = []; // Simpan semua data
+  List<QueryDocumentSnapshot<Object?>> filteredAduan = []; // Data yang sudah difilter
 
   bool isLoading = true;
   String selectedStatusFilter = 'Semua';
@@ -30,10 +30,13 @@ class AdminMonitoringViewModel extends ChangeNotifier {
       ]);
 
       listDesa = results[0] as List<RasioDesaModel>;
-      _allAduan = results[1] as List<DocumentSnapshot>;
+      _allAduan = results[1] as List<QueryDocumentSnapshot<Object?>>;
 
-      // Apply filter setelah data dimuat
+      // Terapkan filter setelah data dimuat
       _applyFilter();
+    } catch (e) {
+      // Tangani kesalahan
+      print('Error fetching data: $e');
     } finally {
       isLoading = false;
       notifyListeners();
@@ -51,16 +54,14 @@ class AdminMonitoringViewModel extends ChangeNotifier {
       filteredAduan = _allAduan;
     } else {
       filteredAduan = _allAduan.where((doc) {
-        final data = doc.data() as Map<String, dynamic>;
-        final status = data['status'] ?? 'baru';
-
-        // Convert both to lowercase for comparison
-        return status.toLowerCase() == selectedStatusFilter.toLowerCase();
+        final data = doc.data() as Map<String, dynamic>?;
+        final status = data?['status']?.toString().toLowerCase() ?? 'baru';
+        return status == selectedStatusFilter.toLowerCase();
       }).toList();
     }
   }
 
-  // Method untuk refresh data
+  // Metode untuk refresh data
   Future<void> refreshData() async {
     await fetchData();
   }

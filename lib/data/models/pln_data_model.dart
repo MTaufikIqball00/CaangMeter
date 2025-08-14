@@ -1,5 +1,4 @@
 
-import 'dart:convert';
 
 class PlnDataModel {
     final String namaProvinsi;

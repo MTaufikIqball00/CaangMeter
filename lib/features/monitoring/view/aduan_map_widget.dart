@@ -142,8 +142,8 @@ class _AduanMapWidgetState extends State<AduanMapWidget> {
               child: FloatingActionButton(
                 onPressed: _loadData,
                 backgroundColor: Colors.white,
-                child: const Icon(Icons.refresh, color: Colors.black),
                 mini: true,
+                child: const Icon(Icons.refresh, color: Colors.black),
               ),
             ),
           ],

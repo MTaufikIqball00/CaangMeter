@@ -18,30 +18,89 @@ class _ListAduanPageState extends State<ListAduanPage> {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        title: const Text('Riwayat Aduan Saya'),
-        backgroundColor: Colors.blue.shade600,
+        title: const Text(
+          'Riwayat Aduan Saya',
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 20,
+            letterSpacing: 0.5,
+          ),
+        ),
+        backgroundColor: Colors.blue.shade700,
         centerTitle: true,
         elevation: 0,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.blue.shade600, Colors.blue.shade900],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // TODO: Navigate to add new aduan page
+        },
+        backgroundColor: Colors.blue.shade700,
+        elevation: 2,
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              colors: [Colors.blue.shade400, Colors.blue.shade900],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: const Center(
+            child: Icon(Icons.add, color: Colors.white, size: 28),
+          ),
+        ),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _aduanRepository.getAduanStream(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
+            );
           }
           if (snapshot.hasError) {
             return Center(
               child: Text(
                 'Terjadi kesalahan: ${snapshot.error}',
-                style: const TextStyle(color: Colors.red),
+                style: TextStyle(
+                  color: Colors.red.shade600,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             );
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(
-              child: Text(
-                'Anda belum pernah membuat aduan.',
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.info_outline,
+                    size: 48,
+                    color: Colors.grey.shade400,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Anda belum pernah membuat aduan.',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.grey.shade600,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
               ),
             );
           }
@@ -49,91 +108,133 @@ class _ListAduanPageState extends State<ListAduanPage> {
           final aduanDocs = snapshot.data!.docs;
 
           return ListView.builder(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(16),
             itemCount: aduanDocs.length,
             itemBuilder: (context, index) {
               final aduanData = aduanDocs[index].data() as Map<String, dynamic>;
               final timestamp = aduanData['timestamp'] as Timestamp;
               final dateTime = timestamp.toDate();
-              final formattedDate = DateFormat('d MMM yyyy, HH:mm').format(dateTime);
+              final formattedDate = DateFormat('d MMMM yyyy, HH:mm').format(dateTime);
 
-              return InkWell(
-                borderRadius: BorderRadius.circular(16),
+              return GestureDetector(
                 onTap: () {
-                  // TODO: halaman detail aduan
+                  // TODO: Navigate to detail aduan page
                 },
-                child: Card(
-                  elevation: 2,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
                   margin: const EdgeInsets.symmetric(vertical: 8),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.1),
+                        spreadRadius: 2,
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(14),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Icon dengan gradient
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: LinearGradient(
-                              colors: [Colors.blue.shade400, Colors.blue.shade700],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                          ),
-                          child: const Icon(
-                            Icons.lightbulb_outline,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(width: 14),
-
-                        // Info utama
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Aduan di Desa ${aduanData['desa']}',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(20),
+                      onTap: () {
+                        // TODO: Navigate to detail aduan page
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Icon dengan gradient dan neumorphic effect
+                            Container(
+                              height: 56,
+                              width: 56,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: LinearGradient(
+                                  colors: [Colors.blue.shade400, Colors.blue.shade800],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
                                 ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                aduanData['keterangan'] ?? '',
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.grey.shade700,
-                                ),
-                              ),
-                              const SizedBox(height: 6),
-                              Row(
-                                children: [
-                                  Icon(Icons.calendar_today, size: 14, color: Colors.grey.shade600),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    formattedDate,
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: Colors.grey.shade600,
-                                    ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.2),
+                                    offset: const Offset(2, 2),
+                                    blurRadius: 4,
+                                  ),
+                                  BoxShadow(
+                                    color: Colors.white.withOpacity(0.8),
+                                    offset: const Offset(-2, -2),
+                                    blurRadius: 4,
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        ),
+                              child: const Icon(
+                                Icons.lightbulb_outline,
+                                color: Colors.white,
+                                size: 28,
+                              ),
+                            ),
+                            const SizedBox(width: 16),
 
-                        const Icon(Icons.chevron_right, color: Colors.grey),
-                      ],
+                            // Info utama
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Aduan di Desa ${aduanData['desa']}',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 18,
+                                      letterSpacing: 0.2,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    aduanData['keterangan'] ?? '',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey.shade600,
+                                      height: 1.4,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.calendar_today,
+                                        size: 16,
+                                        color: Colors.grey.shade500,
+                                      ),
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        formattedDate,
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.grey.shade500,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            // Chevron icon
+                            Icon(
+                              Icons.chevron_right,
+                              color: Colors.grey.shade400,
+                              size: 28,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
